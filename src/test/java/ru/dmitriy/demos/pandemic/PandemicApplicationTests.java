@@ -36,15 +36,15 @@ class PandemicApplicationTests {
     @Test
     void createAndDeleteHuman() {
 
-         Human human = humanService.createRandomHuman();
+        Human human = humanService.createRandomHuman();
 
-         humanService.save(human);
+        humanService.save(human);
 
-         Assertions.assertNotNull(human);
+        Assertions.assertNotNull(humanService.findById(human.getId()));
 
-         humanService.delete(human);
+        humanService.delete(human);
 
-         Assertions.assertNull(humanService.findById(human.getId()));
+        Assertions.assertNull(humanService.findById(human.getId()));
 
     }
 
