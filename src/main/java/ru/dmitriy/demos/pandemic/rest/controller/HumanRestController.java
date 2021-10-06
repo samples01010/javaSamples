@@ -7,17 +7,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import ru.dmitriy.demos.pandemic.entity.Human;
 import ru.dmitriy.demos.pandemic.service.db.HumanService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
 @Tag(name = "Контроллер людей(пациентов).", description = "Контроллер управлением людьми(пациентами).")
-@RestController
-@RequestMapping("human")
 @RequiredArgsConstructor
+@RequestMapping("human")
+@RestController
 public class HumanRestController {
 
     private final HumanService humanService;
@@ -38,11 +41,18 @@ public class HumanRestController {
     }
 
     @Operation(summary = "Добавить", description = "Добавляет человека(пациента).")
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<String> add(@RequestBody Human human) {
+    @PostMapping(value = "/add")
+    public ResponseEntity<String> add(@Valid @RequestBody Human human, BindingResult validationResult) {
 
         try {
-            //todo Валидация входных данных. (В демо-примере не реализована).
+
+            if (validationResult.hasErrors()) {
+
+                StringBuilder errors = new StringBuilder();
+                validationResult.getFieldErrors().forEach(l -> errors.append(l.getDefaultMessage()));
+
+                return new ResponseEntity<>(errors.toString(), HttpStatus.BAD_REQUEST);
+            }
 
             humanService.save(human);
 
