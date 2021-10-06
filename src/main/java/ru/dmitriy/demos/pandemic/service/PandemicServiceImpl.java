@@ -9,8 +9,8 @@ import ru.dmitriy.demos.pandemic.service.db.HumanService;
 import java.util.List;
 
 @Slf4j
-@Service
 @RequiredArgsConstructor
+@Service
 public class PandemicServiceImpl implements PandemicService {
 
     private final HumanService humanService;

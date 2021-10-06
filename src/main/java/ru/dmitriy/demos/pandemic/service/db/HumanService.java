@@ -9,9 +9,10 @@ import ru.dmitriy.demos.pandemic.repository.HumanRepository;
 import java.util.List;
 import java.util.Random;
 
-@Service
+
 @Slf4j
 @RequiredArgsConstructor
+@Service
 public class HumanService {
 
     private final HumanRepository humanRepository;
